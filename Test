@@ -98,27 +98,27 @@
     <!-- 향료 선택 -->
     <label>탑 노트</label><br/>
     <select id="note1">
-      <option>멜론 워터멜론 풀향</option>
-      <option>베르가못</option>
+      <option>메론 풀향</option>
+      <option>화사한 청귤</option>
       <option>레몬 배</option>
-      <option>오렌지 유칼립터스 피톤치드</option>
+      <option>오렌지 피톤치드</option>
       <option>석류</option>
     </select><br/>
 
     <label>미들 노트</label><br/>
     <select id="note2">
-      <option>로즈 코튼블로썸</option>
-      <option>메리골드 자스민</option>
+      <option>로즈 면화꽃</option>
+      <option>금잔화 자스민</option>
       <option>작약 봉숭아 토마토</option>
       <option>라일락</option>
     </select><br/>
 
     <label>베이스 노트</label><br/>
     <select id="note3">
-      <option>시벳 앰버그리스</option>
-      <option>이끼 앰버</option>
-      <option>오션 앰버</option>
-      <option>마호가니 바질 스모키우드</option>
+      <option>사향고양이 향유고래</option>
+      <option>이끼 단추호박</option>
+      <option>바다 단추호박</option>
+      <option>나무 연기</option>
       <option>블루베리 바닐라쿠키</option>
     </select><br/>
 
@@ -139,10 +139,10 @@
   <script>
   // 베이스 노트 설명 매핑
   const baseNoteDescriptions = {
-    "시벳 앰버그리스": "끌리는 풍부한 잔",
-    "이끼 앰버": "시프레감성과 따스한앰버",
-    "오션 앰버": "앰버향과 여름 바닷가를 느끼는 ",
-    "마호가니 바질 스모키우드": "스모키로즈우띠",
+    "사향고양이 향유고래": "끌리는 풍부한 잔",
+    "이끼 단추호박": "시프레감성과 따스한앰버",
+    "바다 단추호박": "앰버향과 여름 바닷가를 느끼는 ",
+    "나무 연기": "스모키로즈우띠",
     "블루베리 바닐라쿠키": "겨울에 더 끌리는 블루베리 바닐라"
   };
 
