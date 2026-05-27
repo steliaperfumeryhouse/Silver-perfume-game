@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>향료믹스 게임 · 스텔리아</title>
+
+  <!-- 폰트 로딩 -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR&family=Dongle:wght@700&display=swap" rel="stylesheet" />
+
+  <style>
+    body {
+      font-family: 'Noto Sans KR', sans-serif;
+      background: url('배경향수게임.jpg') no-repeat center center fixed;
+      background-size: cover;
+      margin: 0;
+      padding: 0;
+    }
+
+    .container {
+      text-align: center;
+      padding: 5vw;
+      background-color: rgba(255, 255, 255, 0.5);
+      border-radius: 12px;
+      max-width: 70%;
+      margin: 5vh auto;
+      box-sizing: border-box;
+    }
+
+    .select, button {
+      width: 70%;
+      max-width: 400px;
+      font-size: 1.1em;
+      margin: 10px auto;
+      display: block;
+    }
+
+    .logo {
+      width: 140px;
+    }
+
+    /* 제목 스타일 */
+    .dongle-bold {
+      font-family: "Dongle", sans-serif;
+      font-weight: 700;
+      font-style: normal;
+      font-size: 2.2em;
+      margin-top: 10px;
+      margin-bottom: 20px;
+      color: #333;
+    }
+
+    /* 결과 박스 스타일 */
+    .result {
+      margin-top: 40px;
+      padding: 20px;
+      background-color: rgba(255, 255, 255, 0.5);
+      border-radius: 12px;
+      max-width: 70%;
+      margin: 40px auto;
+      font-size: 0.95em;
+      line-height: 1.6;
+    }
+
+    .result strong,
+    .result em,
+    .result span {
+      font-family: 'Dongle', sans-serif;
+    }
+
+    .result strong {
+      font-size: 1.8em;
+      color: #5e3c2c;
+    }
+
+    .result em {
+      font-size: 1.3em;
+      font-style: normal;
+      color: #7a4e3d;
+    }
+
+    .result img.logo {
+      margin-top: 20px;
+      width: 100px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <!-- 상단 로고 + 제목 -->
+    <div style="text-align:center; margin-bottom:20px;">
+      <img src="스텔리아로고.png" alt="STELIA 로고" class="logo" />
+      <h1 class="dongle-bold">향료 믹스 게임 · 스텔리아</h1>
+    </div>
+
+    <!-- 향료 선택 -->
+    <label>탑 노트</label><br/>
+    <select id="note1">
+      <option>메론 풀향</option>
+      <option>화사한 청귤</option>
+      <option>레몬 배</option>
+      <option>오렌지 피톤치드</option>
+      <option>석류</option>
+    </select><br/>
+
+    <label>미들 노트</label><br/>
+    <select id="note2">
+      <option>로즈 면화꽃</option>
+      <option>금잔화 자스민</option>
+      <option>작약 봉숭아 토마토</option>
+      <option>라일락</option>
+    </select><br/>
+
+    <label>베이스 노트</label><br/>
+    <select id="note3">
+      <option>사향고양이 향유고래</option>
+      <option>이끼 단추호박</option>
+      <option>바다 단추호박</option>
+      <option>나무 연기</option>
+      <option>블루베리 바닐라쿠키</option>
+    </select><br/>
+
+    <button onclick="combineFragrance()">향 조합하기</button>
+
+    <!-- 결과 박스 -->
+    <div class="result" id="resultBox" style="display:none;">
+      <strong>🧚‍♂️ 오늘 나의향수 🎉:</strong> <span id="blendName"></span><br/>
+      <em id="blendDesc"></em><br/>
+      <br/>
+<a href="https://parfumsteliastella.imweb.me/guide" target="_blank" id="guideBtn" style="display:none; margin-top:10px; padding:10px 20px; background:#5e3c2c; color:white; text-decoration:none; border-radius:6px; font-family:'Noto Sans KR', sans-serif;">
+  향기 가이드 보기 →
+</a>
+   <img src="스텔리아로고.png" alt="STELIA 로고" class="logo" />
+    </div>
+  </div>
+
+  <script>
+  // 베이스 노트 설명 매핑
+  const baseNoteDescriptions = {
+    "사향고양이 향유고래": "끌리는 풍부한 잔",
+    "이끼 단추호박": "시프레감성과 따스한앰버",
+    "바다 단추호박": "앰버향과 여름 바닷가를 느끼는 ",
+    "나무 연기": "스모키로즈우띠",
+    "블루베리 바닐라쿠키": "겨울에 더 끌리는 블루베리 바닐라"
+  };
+
+const fragranceMatches = [
+  {
+    name: "일랑 바닐라",
+    top: ["멜론 워터멜론 풀향"],
+    middle: ["스위트피 일랑일랑"],
+    base: ["시벳 앰버그리스"],
+    message: ""
+  },
+  {
+    name: "데오도란트-K",
+    top: ["쥬니퍼베리 유칼립터스"],
+    middle: ["로즈 코튼블로썸"],
+    base: ["허니써클 슈가"],
+    message: ""
+  },
+  {
+    name: "코리언 분꽃",
+    top: ["베르가못"],
+    middle: ["분꽃 화이트플로럴"],
+    base: ["이끼 앰버"],
+    message: ""
+  },
+  {
+    name: "메리골드 앰버",
+    top: ["그린애플 허니"],
+    middle: ["메리골드 자스민"],
+    base: ["오션 앰버"],
+    message: ""
+  },
+  {
+    name: "카시스 피오니",
+    top: ["카시스 배 풀향"],
+    middle: ["피오니 봉숭아 토마토"],
+    base: ["그린티 산달우드 발삼"],
+    message: ""
+  },
+  {
+    name: "미모사 노스텔지아",
+    top: ["레몬 배"],
+    middle: ["미모사 시클라멘"],
+    base: ["베티버 머스크 통카"],
+    message: ""
+  },
+  {
+    name: "나만의 자유",
+    top: ["배 프리지아"],
+    middle: ["로즈 베르가못 라벤더"],
+    base: ["시나몬 벤조인"],
+    message: ""
+  },
+  {
+    name: "오렌지 진피즈",
+    top: ["오렌지 유칼립터스 피톤치드"],
+    middle: ["진피즈"],
+    base: ["마호가니 바질 스모키우드"],
+    message: ""
+  },
+  {
+    name: "수선화 르네상스",
+    top: ["파인애플"],
+    middle: ["수선화 오키드"],
+    base: ["유향 오우드"],
+    message: ""
+  },
+  {
+    name: "꽃, 겨울 밤",
+    top: ["석류"],
+    middle: ["카모마일 매화"],
+    base: ["매화"],
+    message: ""
+  }
+];
+    
+  function combineFragrance() {
+  const note1 = document.getElementById('note1').value;
+  const note2 = document.getElementById('note2').value;
+  const note3 = document.getElementById('note3').value;
+
+  const exact = fragranceMatches.find(f =>
+    f.top.includes(note1) &&
+    f.middle.includes(note2) &&
+    f.base.includes(note3)
+  );
+
+  const partial = fragranceMatches.find(f =>
+    f.middle.includes(note2) &&
+    f.base.includes(note3)
+  );
+
+  let blendName = "";
+  let blendDesc = "";
+  let showGuide = false;
+  let guideText = "향기 가이드 보기 →";
+
+  if (exact) {
+    blendName = exact.name;
+    blendDesc = `이 향수는 스텔리아의 ‘${exact.name}’입니다. ${exact.message}`;
+    showGuide = true;
+    guideText = "이 향수 찾아보기 →";
+  } else if (partial) {
+    blendName = partial.name;
+    blendDesc = `오늘의 향기와 비슷한 향이 스텔리아의 향수 ‘${partial.name}’에서 발견되었어요. ${partial.message}`;
+    showGuide = true;
+  } else {
+    const note3Desc = baseNoteDescriptions[note3] || "";
+    blendName = `${note1}의 ${note2} ${note3} 향수`;
+    blendDesc = `${note2}의 향기와 ${note3Desc}향이 어우러져 바로 오늘 당신만의 향기가 만들어 집니다.`;
+  }
+
+  document.getElementById('blendName').innerText = blendName;
+  document.getElementById('blendDesc').innerText = blendDesc;
+  document.getElementById('resultBox').style.display = 'block';
+
+  const guideBtn = document.getElementById('guideBtn');
+  if (showGuide) {
+    guideBtn.style.display = 'inline-block';
+    guideBtn.innerText = guideText;
+  } else {
+    guideBtn.style.display = 'none';
+  }
+}
+  </script>
+</body>
+</html>
